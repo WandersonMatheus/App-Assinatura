@@ -1,0 +1,15 @@
+<main>
+    <section class="form-section">
+        <h2>{{title}}</h2>
+        <ng-content></ng-content>
+        <button class="primarybtn" (click)='submit()' [disabled]="disableLogin">{{primarybtntext}}</button>
+        <div>
+            <span>OR</span>
+        </div>
+        <button class="secondarybtn" (click)='navigate()'>{{secondarybtntext}}</button>
+    </section>
+    <section class="main-section">
+        <img  class="logo" src="assets/Logo.png" />
+        <h1>Nos reinventamos para proteger o que construímos: confiança, clareza e resultados.</h1>
+    </section>
+</main>

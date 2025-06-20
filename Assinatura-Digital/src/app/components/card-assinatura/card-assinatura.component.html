@@ -1,0 +1,59 @@
+<div class="card" *ngIf="!carregando; else loading">
+  <div class="card-header">
+    <h3>{{ nomeCliente }}</h3>
+    <div class="header-info">
+      <span class="data">{{ dataFormatada }}</span>
+      <span class="status" [ngClass]="statusClass">{{ statusTexto }}</span>
+    </div>
+  </div>
+  
+  <div class="card-body">
+    <p><strong>Termos:</strong></p>
+    <div class="termos">
+      <span class="termo-tag" *ngFor="let termo of nomesTermos">{{ termo }}</span>
+    </div>
+    
+    <!-- NOVA SEÇÃO DE AÇÕES -->
+    <div class="acoes" *ngIf="assinatura.status !== 'ASSINADA'">
+      
+      <!-- Botão para gerar link (só aparece se status for CRIADA) -->
+      <button 
+        *ngIf="assinatura.status === 'CRIADA'" 
+        class="btn-gerar-link"
+        (click)="gerarLink()" 
+        [disabled]="gerandoLink">
+        {{ gerandoLink ? 'Gerando...' : 'Gerar Link' }}
+      </button>
+      
+      <!-- Mostrar link se já foi gerado -->
+      <div *ngIf="assinatura.status === 'LINK_ENVIADO'" class="link-info">
+        <p><strong>Link:</strong></p>
+        <div class="link-container">
+          <input 
+            type="text" 
+            [value]="assinatura.linkAssinatura" 
+            readonly 
+            class="link-input">
+          <button 
+            class="btn-copiar"
+            (click)="copiarLink()">
+            Copiar
+          </button>
+        </div>
+        <small>Enviado em: {{ assinatura.dataEnvioLink | date:'dd/MM/yyyy HH:mm' }}</small>
+      </div>
+      
+    </div>
+    
+    <!-- Info se já foi assinada -->
+    <div *ngIf="assinatura.status === 'ASSINADA'" class="assinada-info">
+      <p class="sucesso">✅ Assinada em: {{ assinatura.dataAssinatura | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="card loading">
+    <div class="skeleton"></div>
+  </div>
+</ng-template>

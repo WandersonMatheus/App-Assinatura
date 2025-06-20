@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AssinaturaDigitalApplication<AssinaturaDigital>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Equipe1.AssinaturaDigital.AssinaturaDigitalApplication",
+            "projectName": "AssinaturaDigital",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

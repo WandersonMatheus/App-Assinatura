@@ -1,0 +1,29 @@
+<div class="lista-container">
+  <div class="header">
+    <h2>Assinaturas</h2>
+    <button (click)="carregarAssinaturas()" [disabled]="carregando" class="atualizar">
+      {{ carregando ? 'Carregando...' : 'Atualizar' }}
+    </button>
+    <button (click)="criarAssinaturas()" class="create">Criar Assinaturas</button>
+  </div>
+
+  <div class="cards-grid" *ngIf="!carregando && !erro && assinaturas.length > 0">
+    <app-card-assinatura 
+      *ngFor="let assinatura of assinaturas" 
+      [assinatura]="assinatura">
+    </app-card-assinatura>
+  </div>
+
+  <div class="loading" *ngIf="carregando">
+    <p>Carregando assinaturas...</p>
+  </div>
+
+  <div class="erro" *ngIf="erro">
+    <p>{{ erro }}</p>
+    <button (click)="carregarAssinaturas()" class="error-btn">Tentar novamente</button>
+  </div>
+
+  <div class="vazio" *ngIf="!carregando && !erro && assinaturas.length === 0">
+    <p>Nenhuma assinatura encontrada</p>
+  </div>
+</div>

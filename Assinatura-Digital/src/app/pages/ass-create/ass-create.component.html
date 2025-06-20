@@ -1,0 +1,38 @@
+<header>
+      <app-header></app-header>
+</header>
+<main>
+   <div class="content-wrapper">
+     <div class="title-content">
+          <h1>Criar assinatura</h1>
+      </div>
+      <div class="input-content">
+          <form [formGroup]="form" (ngSubmit)="gerarLinkAssinatura()">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" formControlName="clienteId">
+              <option *ngFor="let cliente of clientes" [value]="cliente.id">
+                {{ cliente.nome }} - {{ cliente.cpf }}
+              </option>
+            </select>
+            <button class="cliente-btn" (click)="criarCliente()" >Criar cliente</button>
+            <label for="termo">Termo:</label>
+            <select id="termo" formControlName="termoId">
+              <option *ngFor="let termo of termos" [value]="termo.id">
+                {{ termo.titulo }}
+              </option>
+            </select>
+            <input type="file" (change)="onFileSelected($event)" accept="application/pdf" />
+            <button type="submit" class="link-btn">Gerar link de assinatura</button>
+          </form>
+      </div>
+     
+      <div *ngIf="linkGerado">
+        <p>Link gerado:</p>
+        <input type="text" [value]="linkGerado" readonly>
+        <button (click)="copiarLink()">Copiar</button>
+      </div>
+   </div> 
+</main>
+<footer>
+    <app-footer></app-footer>
+</footer>

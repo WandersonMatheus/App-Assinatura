@@ -1,0 +1,41 @@
+@import "../../../styles/variables.scss";
+.lista-container{
+    padding: 8px;
+    background-color: rgb(66, 66, 66);
+    border-radius: 8px;
+    button{
+        border-radius: 8px;
+        padding: 8px;
+        border: none;
+        width: 100px;
+        margin: 10px;
+        &.create{
+
+            background-color: #ef4444;
+            color: white;
+        }
+        &.create:hover{
+            background-color: white;
+            color: #ef4444;
+            border: solid 1px #ef4444;
+            transition: all 0.3s ease;
+        }
+        &.atualizar{
+            background-color: #2563eb;
+            color: white;
+            margin: 2px;
+        }
+        &.atualizar:hover{
+            color: #002169;
+            background-color:white;
+            border: solid 1px #002169;
+            transition: all 0.3s ease;
+        }
+        &.error-btn{
+            margin: 2px;
+            background-color: 	#ef4444;
+            color: white;
+        }
+    }
+
+}

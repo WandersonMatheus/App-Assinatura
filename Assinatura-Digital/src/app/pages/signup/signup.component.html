@@ -1,0 +1,49 @@
+<app-login-layout
+  title="Login into your account"
+  primarybtntext="Cadastre-se"
+  secondarybtntext="Redirecionar pagina de Login"
+  (submit)="submit()"
+  (navigate)="navigate()"
+  [disableLogin]="!signupForm.valid"
+>
+  <form [formGroup]="signupForm">
+    <app-primaryinput
+      formControlName="nome"
+      inputName="nome"
+      type="text"
+      label="Seu nome"
+      placeholder="Seu nome completo"
+    >
+      <img src="/assets/email.svg" />
+    </app-primaryinput>
+
+    <app-primaryinput
+      formControlName="email"
+      inputName="email"
+      type="email"
+      label="Email"
+      placeholder="12345@gmail.com"
+    >
+      <img src="/assets/email.svg" />
+    </app-primaryinput>
+
+    <app-primaryinput
+      formControlName="password"
+      inputName="password"
+      type="password"
+      label="Senha"
+      placeholder="Insira sua senha"
+    >
+      <img src="/assets/senha.svg" />
+    </app-primaryinput>
+    <app-primaryinput
+      formControlName="passwordConfirm"
+      inputName="passwordConfirm"
+      type="password"
+      label="Confirme sua senha"
+      placeholder="Insira sua senha novamente"
+    >
+      <img src="/assets/senha.svg" />
+    </app-primaryinput>
+  </form>
+</app-login-layout>

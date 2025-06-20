@@ -1,0 +1,31 @@
+<app-login-layout
+    title="Login into your account"
+    primarybtntext="Login"
+    secondarybtntext="Cadastre-se"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disableLogin]="!loginForm.valid"
+>
+    <form [formGroup]="loginForm">
+      <app-primaryinput
+        formControlName="email"
+        inputName="email"
+        type="email"
+        label="Email"
+        placeholder="12345@gmail.com"
+      >
+        <img src="/assets/email.svg"/>
+      </app-primaryinput>
+      
+      <app-primaryinput
+        formControlName="password"
+        inputName="password"
+        type="password"
+        label="Password"
+        placeholder="Insira sua senha"
+      >
+        <img src="/assets/senha.svg"/>
+      </app-primaryinput>
+      <span>Esqueceu sua senha?</span>
+    </form>
+</app-login-layout>
