@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -20,8 +21,16 @@ public class AssinaturaModel {
     private String ip;
     private String localizacao;
     private String pdfPath;
+    private String selfieBase64;       // nova
+    private String cpfInformado;       // novo
+    @Column(name = "selfie_path")
+    private String selfiePath;
 
-    public AssinaturaModel(String clienteId, String termoId, String cenarioId, LocalDateTime dataAssinatura, String ip, String localizacao, String pdfPath) {
+
+    public AssinaturaModel(String id, String clienteId, String termoId, String cenarioId, LocalDateTime dataAssinatura,
+            String ip, String localizacao, String pdfPath, String selfieBase64, String cpfInformado,
+            StatusAssinatura status, String linkAssinatura, LocalDateTime dataEnvioLink) {
+        this.id = id;
         this.clienteId = clienteId;
         this.termoId = termoId;
         this.cenarioId = cenarioId;
@@ -29,6 +38,11 @@ public class AssinaturaModel {
         this.ip = ip;
         this.localizacao = localizacao;
         this.pdfPath = pdfPath;
+        this.selfieBase64 = selfieBase64;
+        this.cpfInformado = cpfInformado;
+        this.status = status;
+        this.linkAssinatura = linkAssinatura;
+        this.dataEnvioLink = dataEnvioLink;
     }
 
     public String getPdfPath() {
@@ -128,5 +142,28 @@ public class AssinaturaModel {
 
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
+    }
+
+    public String getSelfieBase64() {
+        return selfieBase64;
+    }
+
+    public void setSelfieBase64(String selfieBase64) {
+        this.selfieBase64 = selfieBase64;
+    }
+
+    public String getCpfInformado() {
+        return cpfInformado;
+    }
+
+    public void setCpfInformado(String cpfInformado) {
+        this.cpfInformado = cpfInformado;
+    }
+    public String getSelfiePath() {
+    return selfiePath;
+    }
+
+    public void setSelfiePath(String selfiePath) {
+        this.selfiePath = selfiePath;
     }
 }

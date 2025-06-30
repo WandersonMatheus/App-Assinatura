@@ -5,6 +5,11 @@
       <span class="data">{{ dataFormatada }}</span>
       <span class="status" [ngClass]="statusClass">{{ statusTexto }}</span>
     </div>
+    <div>
+      <button (click)="baixarPdf()" class="btn-pdf">
+      📄 Baixar PDF
+</button>
+    </div>
   </div>
   
   <div class="card-body">

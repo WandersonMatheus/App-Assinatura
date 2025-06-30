@@ -2,8 +2,10 @@ package com.Equipe1.AssinaturaDigital.Assinatura;
 
 public enum StatusAssinatura {
     CRIADA("Criada"),
-    LINK_ENVIADO("Link Enviado"), 
+    LINK_ENVIADO("Link Enviado"),
     ASSINADA("Assinada"),
+    CONFIRMADA("Confirmada"),    // novo: validação com CPF/selfie OK
+    RECUSADA("Recusada"),        // novo: validação com CPF/selfie falhou
     CANCELADA("Cancelada"),
     PENDENTE("Pendente");
 
@@ -17,3 +19,4 @@ public enum StatusAssinatura {
         return descricao;
     }
 }
+

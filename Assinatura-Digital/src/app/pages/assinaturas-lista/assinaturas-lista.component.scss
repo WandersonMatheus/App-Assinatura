@@ -1,41 +1,80 @@
 @import "../../../styles/variables.scss";
-.lista-container{
-    padding: 8px;
-    background-color: rgb(66, 66, 66);
-    border-radius: 8px;
-    button{
-        border-radius: 8px;
-        padding: 8px;
-        border: none;
-        width: 100px;
-        margin: 10px;
-        &.create{
 
-            background-color: #ef4444;
-            color: white;
-        }
-        &.create:hover{
-            background-color: white;
-            color: #ef4444;
-            border: solid 1px #ef4444;
-            transition: all 0.3s ease;
-        }
-        &.atualizar{
-            background-color: #2563eb;
-            color: white;
-            margin: 2px;
-        }
-        &.atualizar:hover{
-            color: #002169;
-            background-color:white;
-            border: solid 1px #002169;
-            transition: all 0.3s ease;
-        }
-        &.error-btn{
-            margin: 2px;
-            background-color: 	#ef4444;
-            color: white;
-        }
+.lista-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: rgb(66, 66, 66);
+  border-radius: 8px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+
+    h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .loading,
+  .erro,
+  .vazio {
+    text-align: center;
+    color: white;
+    margin-top: 24px;
+  }
+
+  button {
+    border-radius: 8px;
+    padding: 8px;
+    border: none;
+    width: 120px;
+    margin: 10px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &.create {
+      background-color: #ef4444;
+      color: white;
+
+      &:hover {
+        background-color: white;
+        color: #ef4444;
+        border: solid 1px #ef4444;
+        transition: all 0.3s ease;
+      }
     }
 
+    &.atualizar {
+      background-color: #2563eb;
+      color: white;
+      margin: 2px;
+
+      &:hover {
+        color: #002169;
+        background-color: white;
+        border: solid 1px #002169;
+        transition: all 0.3s ease;
+      }
+    }
+
+    &.error-btn {
+      margin: 2px;
+      background-color: #ef4444;
+      color: white;
+    }
+  }
 }

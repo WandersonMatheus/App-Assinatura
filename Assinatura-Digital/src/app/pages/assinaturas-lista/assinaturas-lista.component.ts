@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assinaturas-lista',
+  standalone: true,
   imports: [CommonModule,CardAssinaturaComponent],
   templateUrl: './assinaturas-lista.component.html',
   styleUrl: './assinaturas-lista.component.scss'
@@ -27,23 +28,21 @@ export class AssinaturasListaComponent implements OnInit {
     criarAssinaturas() {
       this.router.navigate(['/Assinaturas/create']);
     }
-    carregarAssinaturas(): void {
-      this.carregando = true;
-      this.erro = null;
-      
-      this.assinaturaService.listarAssinaturas().subscribe({
-        next: (dados) => {
-          // Pegar apenas as 10 mais recentes
-          this.assinaturas = dados
-            .sort((a, b) => new Date(b.dataCriacao).getTime() - new Date(a.dataCriacao).getTime())
-            .slice(0, 10);
-          this.carregando = false;
-        },
-        error: (error) => {
-          this.erro = 'Erro ao carregar assinaturas';
-          this.carregando = false;
-          console.error('Erro:', error);
-        }
-      });
-    }
+  carregarAssinaturas() {
+    this.carregando = true;
+    this.erro = null;
+    
+    this.assinaturaService.listarAssinaturas().subscribe({
+      next: (data) => {
+        this.assinaturas = data;
+        this.carregando = false;
+        console.log('Assinaturas carregadas:', data); // 🔍 Debug
+      },
+      error: (error) => {
+        console.error('Erro ao carregar assinaturas:', error); // 🔍 Debug
+        this.erro = 'Erro ao carregar assinaturas';
+        this.carregando = false;
+      }
+    });
+  }
 }

@@ -77,11 +77,15 @@ return this.http.post<Assinatura>(`${this.baseUrl}/Assinaturas/${id}/assinar`, p
   /**
    * Listar todas as assinaturas (corretor logado)
    */
-  listarAssinaturas(): Observable<Assinatura[]> {
-    return this.http.get<Assinatura[]>(`${this.baseUrl}/Assinaturas`, {
-      headers: this.getAuthHeaders()
-    });
-  }
+listarAssinaturas(): Observable<Assinatura[]> {
+  const headers = this.getAuthHeaders();
+  console.log('Token:', sessionStorage.getItem('auth-token')); // 🔍 Debug
+  console.log('Headers:', headers); // 🔍 Debug
+  
+  return this.http.get<Assinatura[]>(`${this.baseUrl}/Assinaturas`, {
+    headers: headers
+  });
+}
 
   /**
    * Buscar assinatura por ID (corretor logado)
