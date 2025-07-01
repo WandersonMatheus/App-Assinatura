@@ -23,7 +23,7 @@
         <input type="text" [(ngModel)]="cpfInformado" placeholder="Digite seu CPF" />
 
         <label>Selfie:</label>
-        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+        <input type="file" accept="image/*" capture="user" (change)="onFileSelected($event)" />
         <img *ngIf="selfiePreview" [src]="selfiePreview" alt="Preview da selfie" width="200" />
       </div>
   
