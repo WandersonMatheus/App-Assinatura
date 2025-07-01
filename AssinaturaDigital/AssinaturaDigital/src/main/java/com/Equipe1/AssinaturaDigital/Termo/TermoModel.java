@@ -3,9 +3,12 @@ package com.Equipe1.AssinaturaDigital.Termo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Document(collection = "termos")
 public class TermoModel {
     @Id
+    @JsonProperty("id")
     private String id; 
     private String titulo;
     private String conteudoHtml;

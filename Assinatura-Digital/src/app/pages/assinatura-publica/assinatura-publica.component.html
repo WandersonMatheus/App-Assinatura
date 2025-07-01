@@ -18,10 +18,18 @@
       <div class="pdf-container" *ngIf="pdfUrl">
         <iframe [src]="pdfUrl" width="100%" height="600px" style="border: 1px solid #ccc;"></iframe>
       </div>
+      <div *ngIf="podeAssinar">
+        <label>CPF:</label>
+        <input type="text" [(ngModel)]="cpfInformado" placeholder="Digite seu CPF" />
+
+        <label>Selfie:</label>
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+        <img *ngIf="selfiePreview" [src]="selfiePreview" alt="Preview da selfie" width="200" />
+      </div>
   
       <!-- Ações -->
       <div class="acoes">
-        <button *ngIf="podeAssinar" (click)="assinar()" class="ass-btn">Li e estou de acordo</button>
+        <button *ngIf="podeAssinar" (click)="confirmarAssinatura()" class="ass-btn">Li e estou de acordo</button>
       </div>
     </div>
   </div>

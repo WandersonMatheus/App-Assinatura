@@ -12,12 +12,9 @@ import java.util.Base64;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
-
 import com.Equipe1.AssinaturaDigital.Cliente.ClienteModel;
 import com.Equipe1.AssinaturaDigital.Cliente.ClienteRepository;
 import com.Equipe1.AssinaturaDigital.Infra.Security.DTO.AssinaturaConfirmacaoRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,10 +135,23 @@ public class AssinaturaService {
         AssinaturaModel assinatura = buscarAssinaturaObrigatoria(id);
         
         String cpfEsperado = buscarCpfPorClienteId(assinatura.getClienteId());
+        
         boolean cpfValido = validarCpf(cpfEsperado, request.getCpfInformado());
         
+        System.out.println("CPF esperado: " + cpfEsperado);
+        System.out.println("CPF informado: " + request.getCpfInformado());
+        System.out.println("CPF válido? " + cpfValido);
+        
+        if (!cpfValido) {
+            throw new IllegalArgumentException("CPF informado não confere com o cliente.");
+        }
+
+        if (!StringUtils.hasText(request.getSelfieBase64())) {
+            throw new IllegalArgumentException("Selfie é obrigatória para confirmação.");
+        }
+        
         // Salvar selfie como arquivo JPG se fornecida
-        String selfiePath = null;
+        String selfiePath = salvarSelfieComoJpg(request.getSelfieBase64(), id);
         if (StringUtils.hasText(request.getSelfieBase64())) {
             selfiePath = salvarSelfieComoJpg(request.getSelfieBase64(), id);
         }
@@ -203,9 +213,6 @@ public class AssinaturaService {
         }
         if (!StringUtils.hasText(termoId)) {
             throw new IllegalArgumentException("Termo ID é obrigatório");
-        }
-        if (!StringUtils.hasText(cenarioId)) {
-            throw new IllegalArgumentException("Cenário ID é obrigatório");
         }
         if (pdfFile == null || pdfFile.isEmpty()) {
             throw new IllegalArgumentException("Arquivo PDF é obrigatório");
@@ -298,8 +305,14 @@ public class AssinaturaService {
     }
     
     private boolean validarCpf(String cpfEsperado, String cpfInformado) {
-        return cpfEsperado != null && cpfEsperado.equals(cpfInformado);
+        if (cpfEsperado == null || cpfInformado == null) return false;
+
+        String esperado = cpfEsperado.replaceAll("[^\\d]", "");
+        String informado = cpfInformado.replaceAll("[^\\d]", "");
+
+        return esperado.equals(informado);
     }
+
     
     private void atualizarDadosConfirmacao(AssinaturaModel assinatura, AssinaturaConfirmacaoRequest request, 
                                          String ip, boolean cpfValido, String selfiePath) {

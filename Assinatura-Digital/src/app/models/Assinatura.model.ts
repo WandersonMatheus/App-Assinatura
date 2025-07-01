@@ -6,23 +6,24 @@ export interface Assinatura {
 
   // Relacionamentos
   clienteId: string;
-  funcionarioId: string;
-  termoId: string; // ✅ Se quiser permitir múltiplos termos. Se só permitir um, use termoId: string
-  cliente: Cliente; // ✅ Tipar corretamente se o modelo Cliente existir
-  termo: Termo;     // ✅ Mesmo acima
+  funcionarioId?: string;   // Se não for obrigatório, coloque opcional
+  termoId: string;           // Se for único termo, ok assim
+
+  cliente?: Cliente;         // Opcional caso venha carregado do backend
+  termo?: Termo;             // Opcional idem
 
   // Informações do PDF
-  pdfUrl: string; // ✅ Apenas se estiver disponível no backend
-  titulo: string;
+  pdfUrl?: string;           // Pode ser opcional se nem sempre disponível
+  titulo?: string;
 
-  // Datas
-  dataCriacao: string;       // ou Date — veja abaixo
+  // Datas como strings ISO ou Date? Ideal usar string ISO e converter na UI
+  dataCriacao: string;       // exemplo: "2025-06-30T15:00:00Z"
   dataEnvioLink?: string;
   dataAssinatura?: string;
 
-  // Status da assinatura
+  // Status da assinatura - enum string literal
   status: 'CRIADA' | 'LINK_ENVIADO' | 'ASSINADA' | 'CANCELADA' | 'PENDENTE';
 
-  // Link dinâmico
+  // Link dinâmico gerado para assinatura
   linkAssinatura?: string;
 }

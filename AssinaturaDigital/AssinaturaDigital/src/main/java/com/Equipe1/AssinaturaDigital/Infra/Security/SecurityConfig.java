@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 // Assinaturas públicas (para clientes assinarem)
                                 .requestMatchers(HttpMethod.GET, "/Assinaturas/*/publica").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/Assinaturas/*/assinar").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/Assinaturas/*/confirmar").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/Assinaturas/*/pdf").permitAll()
                                 
                                 // CORS preflight

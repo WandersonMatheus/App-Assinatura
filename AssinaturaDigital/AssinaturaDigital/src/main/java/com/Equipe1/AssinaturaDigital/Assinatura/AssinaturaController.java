@@ -42,7 +42,7 @@ public class AssinaturaController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-    // ✅ NOVO: Endpoint público para visualizar assinatura
+    // Endpoint público para visualizar assinatura
     @GetMapping("/{id}/publica")
     public ResponseEntity<AssinaturaModel> buscarAssinaturaPublica(@PathVariable String id) {
         return assinaturaService.buscarAssinatura(id)
@@ -61,7 +61,7 @@ public class AssinaturaController {
         }
     }
 
-    // ✅ Marcar como assinada (público - cliente não tem login)
+    // Marcar como assinada (público - cliente não tem login)
     @PostMapping("/{id}/assinar")
     public ResponseEntity<AssinaturaModel> marcarComoAssinada(@PathVariable String id) {
         try {
@@ -72,7 +72,7 @@ public class AssinaturaController {
         }
     }
 
-    // ✅ NOVO: Servir PDF da assinatura (público)
+    // Servir PDF da assinatura (público)
     @GetMapping("/{id}/pdf")
     public ResponseEntity<byte[]> obterPdfAssinatura(@PathVariable String id) {
         try {
@@ -97,22 +97,70 @@ public class AssinaturaController {
         return ResponseEntity.ok(assinaturas);
     }
 
-    // Criar assinatura com PDF (protegido)
+    // ✅ CORRIGIDO: Criar assinatura com PDF (protegido)
     @PostMapping
     public ResponseEntity<AssinaturaModel> criarAssinaturaComPdf(
         @RequestParam String clienteId,
         @RequestParam String termoId,
-        @RequestParam(required = false) String cenarioId,
+        @RequestParam(required = false) String cenarioId, // ✅ Opcional
         @RequestParam("pdf") MultipartFile pdfFile
     ) {
+        System.out.println("=== BACKEND DEBUG ===");
+        System.out.println("ClienteId: " + clienteId);
+        System.out.println("TermoId: " + termoId);
+        System.out.println("CenarioId: " + cenarioId);
+        System.out.println("Pdf original filename: " + pdfFile.getOriginalFilename());
+        System.out.println("Pdf size: " + pdfFile.getSize() + " bytes");
+        
         try {
-            AssinaturaModel novaAssinatura = assinaturaService.criarAssinatura(clienteId, termoId, cenarioId, pdfFile);
+            // ✅ VALIDAÇÕES BÁSICAS
+            if (clienteId == null || clienteId.trim().isEmpty()) {
+                System.err.println("❌ ClienteId é obrigatório");
+                return ResponseEntity.badRequest().build();
+            }
+            
+            if (termoId == null || termoId.trim().isEmpty()) {
+                System.err.println("❌ TermoId é obrigatório");
+                return ResponseEntity.badRequest().build();
+            }
+            
+            if (pdfFile == null || pdfFile.isEmpty()) {
+                System.err.println("❌ Arquivo PDF é obrigatório");
+                return ResponseEntity.badRequest().build();
+            }
+            
+            // ✅ TRATAMENTO DO CENARIO_ID OPCIONAL
+            String cenarioIdProcessado = null;
+            if (cenarioId != null && !cenarioId.trim().isEmpty()) {
+                cenarioIdProcessado = cenarioId.trim();
+                System.out.println("✅ CenarioId processado: " + cenarioIdProcessado);
+            } else {
+                System.out.println("✅ CenarioId não fornecido - será null");
+            }
+            
+            // ✅ CHAMAR O SERVICE COM PARÂMETRO TRATADO
+            AssinaturaModel novaAssinatura = assinaturaService.criarAssinatura(
+                clienteId.trim(), 
+                termoId.trim(), 
+                cenarioIdProcessado, // Pode ser null
+                pdfFile
+            );
+            
+            System.out.println("✅ Assinatura criada com sucesso: " + novaAssinatura.getId());
             return ResponseEntity.ok(novaAssinatura);
-        } catch (Exception e) {
+            
+        } catch (IllegalArgumentException e) {
+            System.err.println("❌ Erro de validação: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            System.err.println("❌ Erro interno: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
-        @PostMapping("/{id}/confirmar")
+
+    @PostMapping("/{id}/confirmar")
     public ResponseEntity<?> confirmarAssinatura(
             @PathVariable String id,
             @RequestBody AssinaturaConfirmacaoRequest request,
