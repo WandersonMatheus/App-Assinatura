@@ -6,6 +6,7 @@ import { SafeUrlPipe } from "../../pipes/safe-url.pipe";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import * as faceapi from 'face-api.js';
 
 @Component({
   selector: 'app-assinatura-publica',
@@ -24,6 +25,7 @@ export class AssinaturaPublicaComponent implements OnInit, OnDestroy {
   selfieBase64: string | null = null;
   selfiePreview: string | null = null;
   processandoAssinatura = false;
+  faceDetectada: boolean = false;
 
   constructor(
     private assinaturasService: AssinaturasService,
