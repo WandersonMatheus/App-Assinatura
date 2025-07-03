@@ -33,16 +33,22 @@ export class AssinaturaPublicaComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {
-    this.assinaturaId = this.route.snapshot.paramMap.get('id');
-    
-    if (!this.assinaturaId) {
-      this.erro = 'ID da assinatura não encontrado';
-      this.carregando = false;
-      return;
-    }
+ngOnInit(): void {
+  this.assinaturaId = this.route.snapshot.paramMap.get('id');
+  
+  if (!this.assinaturaId) {
+    this.erro = 'ID da assinatura não encontrado';
+    this.carregando = false;
+    return;
+  }
 
-    this.carregarAssinatura();
+  this.carregarAssinatura();
+  this.carregarModelosFaceApi();
+}
+
+  private async carregarModelosFaceApi(): Promise<void> {
+    const modelPath = '/assets/models'; // coloque os modelos aqui
+    await faceapi.nets.tinyFaceDetector.loadFromUri(modelPath);
   }
 
   onFileSelected(event: Event): void {
@@ -50,7 +56,7 @@ export class AssinaturaPublicaComponent implements OnInit, OnDestroy {
     if (!input.files?.length) return;
 
     const file = input.files[0];
-    
+
     if (!file.type.startsWith('image/')) {
       alert('Por favor, selecione apenas arquivos de imagem');
       return;
@@ -62,15 +68,31 @@ export class AssinaturaPublicaComponent implements OnInit, OnDestroy {
     }
 
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       this.selfieBase64 = reader.result as string;
       this.selfiePreview = this.selfieBase64;
+
+      const img = new Image();
+      img.src = this.selfieBase64;
+      img.onload = async () => {
+        const detections = await faceapi.detectAllFaces(img, new faceapi.TinyFaceDetectorOptions());
+        this.faceDetectada = detections.length > 0;
+
+        if (!this.faceDetectada) {
+          alert('Nenhuma face detectada na imagem. Por favor, envie uma selfie válida.');
+          this.selfieBase64 = null;
+          this.selfiePreview = null;
+        }
+      };
     };
+
     reader.onerror = () => {
       alert('Erro ao ler o arquivo');
     };
+
     reader.readAsDataURL(file);
   }
+
 
   public carregarAssinatura(): void {
     if (!this.assinaturaId) return;

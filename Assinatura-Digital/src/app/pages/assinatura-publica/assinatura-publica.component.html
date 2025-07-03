@@ -25,6 +25,9 @@
         <label>Selfie:</label>
         <input type="file" accept="image/*" capture="user" (change)="onFileSelected($event)" />
         <img *ngIf="selfiePreview" [src]="selfiePreview" alt="Preview da selfie" width="200" />
+        <p *ngIf="selfiePreview && !faceDetectada" style="color: red;">
+          Nenhuma face detectada.
+        </p>
       </div>
   
       <!-- Ações -->
